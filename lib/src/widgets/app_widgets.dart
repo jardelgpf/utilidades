@@ -10,8 +10,6 @@ class AppWidgets extends StatelessWidget {
       title: 'Utilidades',
       initialRoute: '/home',
       routes: generateRoutes(),
-    );
-
-
+    );  
   }
 }
