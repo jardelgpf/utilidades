@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:utilidades/src/app/app_menu.dart';
 
 class CustomAppDrawer extends StatelessWidget {
   const CustomAppDrawer({super.key});
@@ -9,16 +10,25 @@ class CustomAppDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
-            decoration: const BoxDecoration(color: Colors.amber),
-            margin: EdgeInsets.zero,
-            padding: EdgeInsets.zero,
-            child: SizedBox(
-              height: 70,
+          Container(
+            color: Colors.amber,
+            height: 100,
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.only(top: 30),
               child: Center(
-                child: Text("imagem"),
+                child: Image.asset("assets/images/utility.png", width: 150,),
               ),
             ),
+          ),
+          ...appMenuItems.map(
+            (item) => ListTile(
+              leading: Icon(item.icon),
+              title: Text(item.title),
+              onTap: (){
+                Navigator.pushReplacementNamed(context, item.route);
+              },
+            )
           )
         ],
       ),
