@@ -16,18 +16,19 @@ class _ConverterViewState extends State<ConverterView> {
   Unit selecTo = Unit.centimeter;
   String result = '';
 
-  void iniState(){
+  @override
+  void initState(){
     super.initState();
     controller.InitializeModel();
   }
 
-void convert(){
-  setState(() {
-    controller.setInputValue(inputController.text);
-    controller.setUnits(selecFrom, selecTo);
-    result = controller.result;
-  });
-}
+  void convert(){
+    setState(() {
+      controller.setInputValue(inputController.text);
+      controller.setUnits(selecFrom, selecTo);
+      result = controller.result;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
