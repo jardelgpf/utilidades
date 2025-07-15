@@ -28,14 +28,27 @@ class _ProductFormState extends State<ProductForm> {
 
     }
   }
-
-/*   final produto = ProductModel(
+  
+  void _salvar() async {
+    final produto = ProductModel(
     id: widget.produto?.id,
     nome: _nomeController.text.trim(),
-    preco: _precoController.text.replaceAll(RegExp(r'[^]'), '')
-      .replaceAll(',', '') ?? 0.0,
-      descricao: _descricaoController.text.trim()
-  ); */
+    preco: double.tryParse(
+      _precoController.text.replaceAll(RegExp(r'[^\d,]'), '').replaceAll('', '')
+      ) ?? 0.0,
+    descricao: _descricaoController.text.trim()
+  ); 
+
+  if(widget.produto == null){
+    await widget.controller.criarProduto(produto);
+  }else{
+    await widget.controller.atualizarProduto(produto);
+  }
+
+  if(context.mounted){
+    Navigator.pop(context, true);
+  }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +63,25 @@ class _ProductFormState extends State<ProductForm> {
               controller: _nomeController,
               decoration: const InputDecoration(labelText: 'Nome do produto'),
               validator: (v) => v!.isEmpty ? 'Informe o nome' : null,
+            ),
+            TextFormField(
+              controller: _precoController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: 'Preço do produto'),
+              validator: (v) => v!.isEmpty ? 'Informe o preço do produto' : null,
+            ),
+            TextFormField(
+              controller: _descricaoController,
+              decoration: const InputDecoration(labelText: 'Descrição do produto'),
+              validator: (v) => v!.isEmpty ? 'Informe uma descrição' : null,
             )
           ]
         )
       ),
+      actions: [
+        TextButton(onPressed:() => Navigator.pop (context), child: Text('Cancelar')),
+        ElevatedButton(onPressed: (){}, child: Text('Salvar'))
+      ],
     );
   }
 }
