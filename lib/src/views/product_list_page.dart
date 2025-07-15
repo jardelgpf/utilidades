@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:utilidades/src/controllers/product_controller.dart';
 import 'package:utilidades/src/models/product_model.dart';
+import 'package:utilidades/src/views/product_form.dart';
 
 class ProductListPage extends StatefulWidget {
   const ProductListPage({super.key});
@@ -25,11 +26,17 @@ void _loadProdutos(){
   });
 }
 
+void abrirForm({ProductModel? produto})async{
+  final resultado = await showDialog<bool>(
+    context: context,
+    builder: (_) => ProductForm(produto: produto, controller: _controller),
+  );
+}
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: FutureBuilder<List<ProductModel>>(
+    return Scaffold(      
+      body: FutureBuilder<List<ProductModel>>(
         future: _produtos,
         builder: (_, snapshot){
           if(snapshot.connectionState == ConnectionState.waiting){
@@ -55,8 +62,12 @@ void _loadProdutos(){
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      onPressed: (){},
+                      onPressed: () => abrirForm(produto: p),
                       icon: Icon(Icons.edit)
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.delete),
                     )
                   ],
                 ),
@@ -64,7 +75,11 @@ void _loadProdutos(){
             },
           );
         },
-      )
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){},
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
