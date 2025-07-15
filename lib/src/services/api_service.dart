@@ -7,7 +7,7 @@ class ApiService {
    * USAR API LOCAL
    * http://10.0.2.2:3000
    */
-  final _baseUrl = "https://api-bracellos.onrender.com";
+  final _baseUrl = "http://10.0.2.2:3000";
 
   Future<String?> login(Map<String, dynamic> data) async{
     final url = Uri.parse('$_baseUrl/login');
