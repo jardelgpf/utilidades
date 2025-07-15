@@ -27,6 +27,44 @@ void _loadProdutos(){
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: FutureBuilder<List<ProductModel>>(
+        future: _produtos,
+        builder: (_, snapshot){
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return const Center(child: CircularProgressIndicator());
+          }else if(snapshot.hasError){
+            return Center(child: Text('Erro: ${snapshot.error}'),);
+          }else if(!snapshot.hasData || snapshot.data!.isEmpty){
+            return Center(child: Text('Nenhum produto encontrado'),);
+          }
+
+          final produtos = snapshot.data!;
+          return ListView.builder(
+            itemCount: produtos.length,
+            itemBuilder: (_, i){
+              final p = produtos[i];
+              return ListTile(
+                title: Text(p.nome),
+                subtitle: Text(
+                  'Preço: ${p.preco} \n Descrição: ${p.descricao}'
+                ),
+                isThreeLine: true,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: (){},
+                      icon: Icon(Icons.edit)
+                    )
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      )
+    );
   }
 }
