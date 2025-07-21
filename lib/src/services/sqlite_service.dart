@@ -26,7 +26,8 @@ class SqliteService {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       nome TEXT NOT NULL,
       idade INTEGER NOT NULL
-    )
+    );
+    
     ''');
   }
 
